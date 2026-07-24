@@ -4,10 +4,12 @@ import { PageHeader } from "@/components/PageHeader";
 import { ServiceCard } from "@/components/ServiceCard";
 import { Skeleton } from "@/components/ui/Badge";
 import { useSearchServices } from "@/hooks/useServices";
+import { useDebouncedValue } from "@/hooks/useDebouncedValue";
 
 export default function Search() {
   const [term, setTerm] = useState("");
-  const { data: results, isLoading, isFetching } = useSearchServices(term);
+  const debouncedTerm = useDebouncedValue(term, 300);
+  const { data: results, isLoading, isFetching } = useSearchServices(debouncedTerm);
 
   return (
     <div className="pb-24">
@@ -15,16 +17,20 @@ export default function Search() {
 
       <div className="px-5">
         <div className="relative mb-4">
-          <SearchIcon className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-4.5 w-4.5 text-slate-400" />
+          <SearchIcon className="pointer-events-none absolute left-4 top-1/2 -translate-y-1/2 h-[18px] w-[18px] text-slate-400" />
           <input
             autoFocus
             value={term}
             onChange={(e) => setTerm(e.target.value)}
             placeholder="Digite para pesquisar..."
-            className="h-12 w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 pl-11 pr-10 text-[15px] outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
+            className="h-[52px] w-full rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 pl-11 pr-10 text-base outline-none focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10"
           />
           {term && (
-            <button onClick={() => setTerm("")} className="absolute right-3 top-1/2 -translate-y-1/2 rounded-full p-1.5 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800">
+            <button
+              onClick={() => setTerm("")}
+              aria-label="Limpar pesquisa"
+              className="absolute right-2 top-1/2 -translate-y-1/2 flex h-9 w-9 items-center justify-center rounded-full text-slate-400 active:bg-slate-100 dark:active:bg-slate-800"
+            >
               <X className="h-4 w-4" />
             </button>
           )}

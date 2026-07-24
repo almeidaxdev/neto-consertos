@@ -1,5 +1,5 @@
 import { AreaChart, Area, BarChart, Bar, XAxis, ResponsiveContainer, Tooltip } from "recharts";
-import { Wrench, CheckCircle2, TrendingUp, TrendingDown, DollarSign } from "lucide-react";
+import { Wrench, CheckCircle2, TrendingUp, TrendingDown, DollarSign, Plus } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Card } from "@/components/ui/Card";
 import { Skeleton } from "@/components/ui/Badge";
@@ -28,11 +28,13 @@ function MetricCard({
       : "text-slate-900 dark:text-white";
   return (
     <Card className="p-4">
-      <div className="mb-2 flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400">
-        <Icon className="h-4.5 w-4.5" />
+      <div className="mb-2.5 flex h-9 w-9 items-center justify-center rounded-xl bg-brand-50 dark:bg-brand-950 text-brand-600 dark:text-brand-400">
+        <Icon className="h-[18px] w-[18px]" />
       </div>
       <p className="text-xs font-medium text-slate-400">{label}</p>
-      <p className={`font-display text-lg font-bold ${toneClass}`}>{value}</p>
+      <p className={`font-display text-lg font-bold leading-snug truncate ${toneClass}`} title={value}>
+        {value}
+      </p>
     </Card>
   );
 }
@@ -49,8 +51,19 @@ export default function Dashboard() {
       </header>
 
       <div className="px-5">
-        <p className="mb-1 text-sm text-slate-400">Visão geral</p>
-        <h1 className="mb-5 font-display text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+        <div className="mb-5 flex items-center justify-between gap-3">
+          <div>
+            <p className="mb-1 text-sm text-slate-400">Visão geral</p>
+            <h1 className="font-display text-2xl font-bold text-slate-900 dark:text-white">Dashboard</h1>
+          </div>
+          <button
+            onClick={() => navigate("/servicos/novo")}
+            className="flex shrink-0 items-center gap-1.5 rounded-2xl bg-brand-600 px-4 py-3 text-sm font-semibold text-white shadow-card active:scale-[0.97] transition-transform"
+          >
+            <Plus className="h-4 w-4" strokeWidth={2.5} />
+            Nova OS
+          </button>
+        </div>
 
         {isLoading ? (
           <div className="grid grid-cols-2 gap-3">

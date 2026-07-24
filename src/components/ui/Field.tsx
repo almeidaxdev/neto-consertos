@@ -28,7 +28,7 @@ export function FieldWrapper({ label, error, hint, children, required }: FieldWr
 }
 
 const baseInputClass =
-  "w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 text-[15px] text-slate-900 dark:text-slate-100 placeholder:text-slate-400 outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10";
+  "w-full h-[52px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 text-base text-slate-900 dark:text-slate-100 placeholder:text-slate-400 outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10";
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label?: string;

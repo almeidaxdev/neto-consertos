@@ -30,7 +30,7 @@ export function CurrencyField<T extends FieldValues>({ control, name, label, err
                 field.onChange(centsToNumber(raw));
               }}
               className={cn(
-                "w-full h-12 rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 text-[15px] font-semibold text-slate-900 dark:text-slate-100 outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10",
+                "w-full h-[52px] rounded-xl border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 px-4 text-base font-semibold text-slate-900 dark:text-slate-100 outline-none transition-all focus:border-brand-500 focus:ring-4 focus:ring-brand-500/10",
                 error && "border-red-400 focus:border-red-500 focus:ring-red-500/10"
               )}
               placeholder="R$ 0,00"

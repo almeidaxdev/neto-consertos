@@ -40,7 +40,11 @@ export function Sheet({ open, onClose, title, children }: SheetProps) {
             <div className="sticky top-0 z-10 flex items-center justify-between border-b border-slate-100 dark:border-slate-800 bg-white/95 dark:bg-slate-900/95 backdrop-blur px-5 py-4">
               <div className="mx-auto absolute left-1/2 -translate-x-1/2 top-2 h-1.5 w-10 rounded-full bg-slate-200 dark:bg-slate-700 sm:hidden" />
               <h2 className="font-display text-lg font-bold pt-2 sm:pt-0">{title}</h2>
-              <button onClick={onClose} className="rounded-full p-2 text-slate-400 hover:bg-slate-100 dark:hover:bg-slate-800 mt-2 sm:mt-0">
+              <button
+                onClick={onClose}
+                aria-label="Fechar"
+                className="flex h-10 w-10 shrink-0 items-center justify-center rounded-full text-slate-400 active:bg-slate-100 dark:active:bg-slate-800 mt-2 sm:mt-0"
+              >
                 <X className="h-5 w-5" />
               </button>
             </div>

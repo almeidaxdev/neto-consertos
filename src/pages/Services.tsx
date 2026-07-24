@@ -23,7 +23,7 @@ export default function Services() {
           <button
             onClick={() => setStatusFilter(undefined)}
             className={cn(
-              "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors",
+              "shrink-0 rounded-full px-4 py-2.5 text-xs font-semibold transition-colors",
               !statusFilter ? "bg-brand-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500"
             )}
           >
@@ -34,7 +34,7 @@ export default function Services() {
               key={s}
               onClick={() => setStatusFilter(s)}
               className={cn(
-                "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold transition-colors",
+                "shrink-0 rounded-full px-4 py-2.5 text-xs font-semibold transition-colors",
                 statusFilter === s ? "bg-brand-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500"
               )}
             >
@@ -68,14 +68,6 @@ export default function Services() {
           </div>
         )}
       </div>
-
-      <button
-        onClick={() => navigate("/servicos/novo")}
-        className="fixed bottom-24 right-5 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-brand-600 text-white shadow-xl shadow-brand-600/30 transition-transform active:scale-90"
-        aria-label="Novo serviço"
-      >
-        <Plus className="h-6 w-6" />
-      </button>
     </div>
   );
 }

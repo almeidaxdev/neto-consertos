@@ -51,18 +51,24 @@ export default function Payments() {
       <PageHeader title="Pagamentos" subtitle="Controle financeiro por serviço" />
 
       <div className="px-5">
-        <div className="grid grid-cols-3 gap-3">
+        <div className="grid grid-cols-3 gap-2.5">
           <Card className="p-3 text-center">
             <p className="text-[11px] text-slate-400">Total</p>
-            <p className="font-display text-sm font-bold text-slate-900 dark:text-white">{formatCurrency(totals.totalValue)}</p>
+            <p className="font-display text-sm font-bold text-slate-900 dark:text-white truncate" title={formatCurrency(totals.totalValue)}>
+              {formatCurrency(totals.totalValue)}
+            </p>
           </Card>
           <Card className="p-3 text-center">
             <p className="text-[11px] text-slate-400">Pago</p>
-            <p className="font-display text-sm font-bold text-emerald-600">{formatCurrency(totals.totalPaid)}</p>
+            <p className="font-display text-sm font-bold text-emerald-600 truncate" title={formatCurrency(totals.totalPaid)}>
+              {formatCurrency(totals.totalPaid)}
+            </p>
           </Card>
           <Card className="p-3 text-center">
             <p className="text-[11px] text-slate-400">Restante</p>
-            <p className="font-display text-sm font-bold text-orange-500">{formatCurrency(totals.totalRemaining)}</p>
+            <p className="font-display text-sm font-bold text-orange-500 truncate" title={formatCurrency(totals.totalRemaining)}>
+              {formatCurrency(totals.totalRemaining)}
+            </p>
           </Card>
         </div>
 
@@ -72,7 +78,7 @@ export default function Payments() {
               key={f}
               onClick={() => setFilter(f)}
               className={cn(
-                "shrink-0 rounded-full px-3.5 py-1.5 text-xs font-semibold capitalize transition-colors",
+                "shrink-0 rounded-full px-4 py-2.5 text-xs font-semibold capitalize transition-colors",
                 filter === f ? "bg-brand-600 text-white" : "bg-slate-100 dark:bg-slate-800 text-slate-500"
               )}
             >

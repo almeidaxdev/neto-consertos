@@ -116,7 +116,7 @@ export default function ServiceDetails() {
         right={
           <button
             onClick={() => navigate(`/servicos/${id}/editar`)}
-            className="rounded-full p-2 text-brand-600 hover:bg-brand-50 dark:hover:bg-brand-950"
+            className="flex h-10 w-10 items-center justify-center rounded-full text-brand-600 active:bg-brand-50 dark:active:bg-brand-950"
           >
             <Pencil className="h-5 w-5" />
           </button>
@@ -127,7 +127,7 @@ export default function ServiceDetails() {
         <Card className="p-4">
           <div className="mb-3 flex items-center justify-between">
             <StatusBadge status={service.status} />
-            <button onClick={() => setConfirmDelete(true)} className="rounded-full p-1.5 text-slate-300 hover:bg-red-50 hover:text-red-500">
+            <button onClick={() => setConfirmDelete(true)} className="flex h-9 w-9 items-center justify-center rounded-full text-slate-300 active:bg-red-50 active:text-red-500">
               <Trash2 className="h-4 w-4" />
             </button>
           </div>
@@ -162,7 +162,10 @@ export default function ServiceDetails() {
         <Card className="p-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">Cliente</p>
           <p className="font-semibold text-slate-900 dark:text-white">{service.client_name}</p>
-          <a href={`tel:${service.client_phone}`} className="mt-1 flex items-center gap-1.5 text-sm text-brand-600">
+          <a
+            href={`tel:${service.client_phone}`}
+            className="-ml-1 mt-1 inline-flex items-center gap-1.5 rounded-lg px-1 py-2 text-sm font-medium text-brand-600 active:bg-brand-50 dark:active:bg-brand-950"
+          >
             <Phone className="h-3.5 w-3.5" /> {service.client_phone}
           </a>
         </Card>
@@ -210,7 +213,7 @@ export default function ServiceDetails() {
                       {PAYMENT_METHOD_LABELS[p.method as PaymentMethod]} · {formatDate(p.paid_at)}
                     </p>
                   </div>
-                  <button onClick={() => handleRemovePayment(p.id)} className="rounded-full p-1.5 text-slate-300 hover:bg-red-50 hover:text-red-500">
+                  <button onClick={() => handleRemovePayment(p.id)} className="flex h-9 w-9 items-center justify-center rounded-full text-slate-300 active:bg-red-50 active:text-red-500">
                     <Trash2 className="h-3.5 w-3.5" />
                   </button>
                 </div>
