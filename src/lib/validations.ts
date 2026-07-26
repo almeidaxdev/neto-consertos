@@ -1,20 +1,27 @@
 import { z } from "zod";
 
-export const serviceSchema = z.object({
-  client_name: z.string().min(2, "Informe o nome do cliente").max(120),
-  client_phone: z
-    .string()
-    .min(10, "Telefone inválido")
-    .max(20, "Telefone inválido"),
-  equipment: z.string().min(2, "Informe o equipamento").max(120),
-  brand: z.string().max(60).optional().or(z.literal("")),
-  reported_issue: z.string().min(3, "Descreva o defeito informado").max(500),
-  service_value: z.coerce.number().min(0, "Valor não pode ser negativo"),
-  parts_cost: z.coerce.number().min(0, "Valor não pode ser negativo"),
-  down_payment: z.coerce.number().min(0, "Valor não pode ser negativo").optional().default(0),
-  status: z.enum(["recebido", "em_andamento", "aguardando_peca", "finalizado", "entregue"]),
-  notes: z.string().max(1000).optional().or(z.literal("")),
-});
+export const serviceSchema = z
+  .object({
+    client_name: z.string().min(2, "Informe o nome do cliente").max(120),
+    has_phone: z.boolean().default(true),
+    client_phone: z.string().max(20, "Telefone inválido").optional().or(z.literal("")),
+    equipment: z.string().min(2, "Informe o equipamento").max(120),
+    brand: z.string().trim().max(60).optional().or(z.literal("")),
+    reported_issue: z.string().min(3, "Descreva o defeito informado").max(500),
+    service_value: z.coerce.number().min(0, "Valor não pode ser negativo"),
+    parts_cost: z.coerce.number().min(0, "Valor não pode ser negativo"),
+    status: z.enum(["recebido", "em_andamento", "aguardando_peca", "finalizado", "entregue"]),
+    notes: z.string().max(1000).optional().or(z.literal("")),
+  })
+  .superRefine((data, ctx) => {
+    if (data.has_phone && (!data.client_phone || data.client_phone.replace(/\D/g, "").length < 10)) {
+      ctx.addIssue({
+        code: z.ZodIssueCode.custom,
+        path: ["client_phone"],
+        message: "Informe um telefone válido ou desative esta opção",
+      });
+    }
+  });
 
 export type ServiceSchema = z.infer<typeof serviceSchema>;
 

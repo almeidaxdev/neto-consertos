@@ -2,6 +2,7 @@ import { useEffect } from "react";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useNavigate, useParams } from "react-router-dom";
+import { Phone } from "lucide-react";
 import { PageHeader } from "@/components/PageHeader";
 import { Input, Textarea, Select } from "@/components/ui/Field";
 import { CurrencyField } from "@/components/CurrencyField";
@@ -29,18 +30,19 @@ export default function ServiceForm() {
     handleSubmit,
     reset,
     watch,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm<ServiceSchema>({
     resolver: zodResolver(serviceSchema),
     defaultValues: {
       client_name: "",
+      has_phone: true,
       client_phone: "",
       equipment: "",
       brand: "",
       reported_issue: "",
       service_value: 0,
       parts_cost: 0,
-      down_payment: 0,
       status: "recebido",
       notes: "",
     },
@@ -50,18 +52,20 @@ export default function ServiceForm() {
     if (existing) {
       reset({
         client_name: existing.client_name,
-        client_phone: existing.client_phone,
+        has_phone: !!existing.client_phone,
+        client_phone: existing.client_phone ?? "",
         equipment: existing.equipment,
         brand: existing.brand ?? "",
         reported_issue: existing.reported_issue,
         service_value: Number(existing.service_value),
         parts_cost: Number(existing.parts_cost),
-        down_payment: Number(existing.down_payment),
         status: existing.status,
         notes: existing.notes ?? "",
       });
     }
   }, [existing, reset]);
+
+  const hasPhone = watch("has_phone");
 
   const serviceValue = watch("service_value") || 0;
   const partsCost = watch("parts_cost") || 0;
@@ -100,27 +104,72 @@ export default function ServiceForm() {
         <Card className="space-y-4 p-4">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Cliente</p>
           <Input label="Nome do cliente" required placeholder="Ex: Maria Silva" error={errors.client_name?.message} {...register("client_name")} />
-          <Controller
-            control={control}
-            name="client_phone"
-            render={({ field }) => (
-              <Input
-                label="Telefone"
-                required
-                placeholder="(00) 00000-0000"
-                inputMode="numeric"
-                value={field.value}
-                onChange={(e) => field.onChange(formatPhoneInput(e.target.value))}
-                error={errors.client_phone?.message}
-              />
-            )}
-          />
+
+          <div className="flex items-center justify-between rounded-xl bg-slate-50 dark:bg-slate-800/50 px-4 py-3">
+            <div className="flex items-center gap-2.5">
+              <Phone className="h-4 w-4 text-slate-400" />
+              <div>
+                <p className="text-sm font-semibold text-slate-700 dark:text-slate-200">Cliente possui telefone</p>
+                <p className="text-xs text-slate-400">Desative se não tiver o contato</p>
+              </div>
+            </div>
+            <Controller
+              control={control}
+              name="has_phone"
+              render={({ field }) => (
+                <button
+                  type="button"
+                  role="switch"
+                  aria-checked={field.value}
+                  onClick={() => {
+                    const next = !field.value;
+                    field.onChange(next);
+                    if (!next) setValue("client_phone", "");
+                  }}
+                  className={`h-6 w-11 shrink-0 rounded-full p-0.5 transition-colors ${field.value ? "bg-brand-600" : "bg-slate-300 dark:bg-slate-600"}`}
+                >
+                  <div className={`h-5 w-5 rounded-full bg-white shadow transition-transform ${field.value ? "translate-x-5" : "translate-x-0"}`} />
+                </button>
+              )}
+            />
+          </div>
+
+          {hasPhone && (
+            <Controller
+              control={control}
+              name="client_phone"
+              render={({ field }) => (
+                <Input
+                  label="Telefone"
+                  required
+                  placeholder="(00) 00000-0000"
+                  inputMode="numeric"
+                  value={field.value ?? ""}
+                  onChange={(e) => field.onChange(formatPhoneInput(e.target.value))}
+                  error={errors.client_phone?.message}
+                />
+              )}
+            />
+          )}
         </Card>
 
         <Card className="space-y-4 p-4">
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Equipamento</p>
           <Input label="Equipamento" required placeholder="Ex: iPhone 12" error={errors.equipment?.message} {...register("equipment")} />
-          <Input label="Marca" placeholder="Ex: Apple" error={errors.brand?.message} {...register("brand")} />
+          <Controller
+            control={control}
+            name="brand"
+            render={({ field }) => (
+              <Input
+                label="Marca"
+                placeholder="Ex: Apple"
+                error={errors.brand?.message}
+                value={field.value ?? ""}
+                onChange={(e) => field.onChange(e.target.value)}
+                onBlur={() => field.onChange(field.value?.trim() ?? "")}
+              />
+            )}
+          />
           <Textarea label="Defeito informado" required placeholder="Descreva o problema relatado pelo cliente" error={errors.reported_issue?.message} {...register("reported_issue")} />
         </Card>
 
@@ -128,7 +177,6 @@ export default function ServiceForm() {
           <p className="text-xs font-bold uppercase tracking-wide text-slate-400">Financeiro</p>
           <CurrencyField control={control} name="service_value" label="Valor do serviço" required error={errors.service_value?.message} />
           <CurrencyField control={control} name="parts_cost" label="Valor gasto em peças" required error={errors.parts_cost?.message} />
-          <CurrencyField control={control} name="down_payment" label="Valor de entrada" hint="Opcional" error={errors.down_payment?.message} />
 
           <div className="flex items-center justify-between rounded-xl bg-emerald-50 dark:bg-emerald-950 px-4 py-3">
             <span className="text-sm font-semibold text-emerald-700 dark:text-emerald-400">Lucro estimado</span>

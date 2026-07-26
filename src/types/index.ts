@@ -72,13 +72,13 @@ export interface ServiceWithPayments extends ServiceRow {
 
 export interface ServiceFormInput {
   client_name: string;
-  client_phone: string;
+  has_phone: boolean;
+  client_phone?: string;
   equipment: string;
   brand?: string;
   reported_issue: string;
   service_value: number;
   parts_cost: number;
-  down_payment?: number;
   status: ServiceStatus;
   notes?: string;
 }

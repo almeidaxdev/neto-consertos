@@ -6,8 +6,13 @@ import { ServiceCard } from "@/components/ServiceCard";
 import { Skeleton } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
 import { useServices } from "@/hooks/useServices";
-import { STATUS_LABELS, STATUS_ORDER, ServiceStatus } from "@/types";
+import { STATUS_LABELS, ServiceStatus } from "@/types";
 import { cn } from "@/lib/utils";
+
+// Filtros visíveis na listagem de serviços (a pedido: apenas os status de fluxo
+// mais usados no dia a dia). "Recebido" e "Aguardando peça" continuam existindo
+// normalmente no cadastro/edição — só não aparecem como atalho de filtro aqui.
+const VISIBLE_FILTERS: ServiceStatus[] = ["em_andamento", "finalizado", "entregue"];
 
 export default function Services() {
   const [statusFilter, setStatusFilter] = useState<ServiceStatus | undefined>(undefined);
@@ -29,7 +34,7 @@ export default function Services() {
           >
             Todos
           </button>
-          {STATUS_ORDER.map((s) => (
+          {VISIBLE_FILTERS.map((s) => (
             <button
               key={s}
               onClick={() => setStatusFilter(s)}

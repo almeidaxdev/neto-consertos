@@ -49,13 +49,13 @@ export function useCreateService() {
         .insert({
           owner_id: user?.id,
           client_name: input.client_name,
-          client_phone: input.client_phone,
+          client_phone: input.has_phone ? (input.client_phone ?? "") : "",
           equipment: input.equipment,
-          brand: input.brand || null,
+          brand: input.brand?.trim() || null,
           reported_issue: input.reported_issue,
           service_value: input.service_value,
           parts_cost: input.parts_cost,
-          down_payment: input.down_payment ?? 0,
+          down_payment: 0,
           status: input.status,
           notes: input.notes || null,
         })
@@ -76,12 +76,14 @@ export function useUpdateService(id: string) {
 
   return useMutation({
     mutationFn: async (input: Partial<ServiceFormInput>) => {
+      const { has_phone, client_phone, brand, notes, ...rest } = input;
       const { data, error } = await supabase
         .from("services")
         .update({
-          ...input,
-          brand: input.brand || null,
-          notes: input.notes || null,
+          ...rest,
+          ...(has_phone !== undefined && { client_phone: has_phone ? (client_phone ?? "") : "" }),
+          ...(brand !== undefined && { brand: brand?.trim() || null }),
+          ...(notes !== undefined && { notes: notes || null }),
         })
         .eq("id", id)
         .select()

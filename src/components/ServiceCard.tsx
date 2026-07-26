@@ -29,6 +29,7 @@ export function ServiceCard({ service }: { service: ServiceRow }) {
               <p className="text-xs font-semibold text-slate-400">OS #{service.os_number}</p>
               <p className="truncate font-display text-base font-bold text-slate-900 dark:text-white leading-tight">
                 {service.equipment}
+                {service.brand && <span className="font-normal text-slate-400"> · {service.brand}</span>}
               </p>
               <p className="flex items-center gap-1 truncate text-xs text-slate-500 dark:text-slate-400 mt-0.5">
                 <User className="h-3 w-3 shrink-0" /> {service.client_name}

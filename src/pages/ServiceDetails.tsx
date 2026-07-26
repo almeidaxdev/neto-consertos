@@ -162,12 +162,16 @@ export default function ServiceDetails() {
         <Card className="p-4">
           <p className="mb-3 text-xs font-bold uppercase tracking-wide text-slate-400">Cliente</p>
           <p className="font-semibold text-slate-900 dark:text-white">{service.client_name}</p>
-          <a
-            href={`tel:${service.client_phone}`}
-            className="-ml-1 mt-1 inline-flex items-center gap-1.5 rounded-lg px-1 py-2 text-sm font-medium text-brand-600 active:bg-brand-50 dark:active:bg-brand-950"
-          >
-            <Phone className="h-3.5 w-3.5" /> {service.client_phone}
-          </a>
+          {service.client_phone ? (
+            <a
+              href={`tel:${service.client_phone}`}
+              className="-ml-1 mt-1 inline-flex items-center gap-1.5 rounded-lg px-1 py-2 text-sm font-medium text-brand-600 active:bg-brand-50 dark:active:bg-brand-950"
+            >
+              <Phone className="h-3.5 w-3.5" /> {service.client_phone}
+            </a>
+          ) : (
+            <p className="mt-1 text-xs text-slate-400">Telefone não informado</p>
+          )}
         </Card>
 
         <Card className="p-4">
